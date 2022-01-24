@@ -1,6 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PersonApp</string>
-    <string name="enter_number_label">Enter Number</string>
+
+    <string name="enter_number_label">Nummer eingeben</string>
     <string name="generate_table_label">Generate Table</string>
-    <string name="reset_label">Reset</string>
 </resources>

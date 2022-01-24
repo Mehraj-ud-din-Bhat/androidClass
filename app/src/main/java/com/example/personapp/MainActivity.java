@@ -8,65 +8,81 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etFirstName,etLastName,etPhone;
-    Button submit;
+    EditText numberEt;
+
+    Button generateTable,reset;
+    TextView tvTable;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        etFirstName=findViewById(R.id.firstname);
-        etLastName=findViewById(R.id.lastname);
-        etPhone=findViewById(R.id.phone);
-        submit=findViewById(R.id.submit);
-
-
-        submit.setOnClickListener(new View.OnClickListener() {
+        numberEt=findViewById(R.id.number_et);
+        generateTable=findViewById(R.id.generate_table_btn);
+        reset=findViewById(R.id.reset_btn);
+        tvTable=findViewById(R.id.tv_table);
+        generateTable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validate())
-                {
-                    Intent intent=new Intent(MainActivity.this,Summary.class);
-                    intent.putExtra("fname",etFirstName.getText().toString());
-                    intent.putExtra("lname",etLastName.getText().toString());
-                    intent.putExtra("phone",etPhone.getText().toString());
-                    startActivity(intent);
-                }
+               if(numberEt.getText().toString().isEmpty())
+               {
+                   numberEt.setError("Enter Number");
+                   return;
+               }
+
+               generateTable(Integer.parseInt(numberEt.getText().toString()));
             }
         });
 
-      //  Toast.makeText(this,"ON CREATE WAS CALLED",Toast.LENGTH_LONG).show();
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               reset();
+            }
+        });
+
+
+
+
     }
-    public  boolean validate()
+
+
+
+
+
+
+    public  void generateTable(int no)
     {
-        if(etFirstName.getText().toString().isEmpty())
+
+        numberEt.setVisibility(View.GONE);
+        generateTable.setVisibility(View.GONE);
+        reset.setVisibility(View.VISIBLE);
+        int temp;
+        for(int i=1;i<50;i++)
         {
-            etFirstName.setError("First Name is required");
-            return  false;
+            temp=no*i;
+            tvTable.setText(tvTable.getText()+"\n  "+no+" X " + i +" = "+temp);
         }
-
-
-        if(etLastName.getText().toString().isEmpty())
-        {
-            etLastName.setError("Last Name is required");
-            return  false;
-        }
-
-
-        if(etPhone.getText().toString().isEmpty())
-        {
-            etPhone.setError("phone is required");
-            return  false;
-        }
-
-
-        return  true;
-
     }
+
+
+    public  void reset()
+    {
+        numberEt.setVisibility(View.VISIBLE);
+        generateTable.setVisibility(View.VISIBLE);
+        numberEt.setText("");
+        tvTable.setText("");
+        reset.setVisibility(View.GONE);
+    }
+
 
 }
