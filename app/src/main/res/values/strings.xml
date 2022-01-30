@@ -1,6 +1,4 @@
 <resources>
     <string name="app_name">PersonApp</string>
-    <string name="enter_number_label">Enter Number</string>
-    <string name="generate_table_label">Generate Table</string>
-    <string name="reset_label">Reset</string>
+    <string name="task_manager">Task Manager</string>
 </resources>

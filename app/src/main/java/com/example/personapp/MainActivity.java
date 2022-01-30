@@ -1,6 +1,8 @@
 package com.example.personapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,14 +13,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
-    EditText numberEt;
 
-    Button generateTable,reset;
-    TextView tvTable;
+   ArrayList<Task> list=new ArrayList<>();
 
-
+  RecyclerView recyclerView;
 
 
 
@@ -26,63 +28,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        numberEt=findViewById(R.id.number_et);
-        generateTable=findViewById(R.id.generate_table_btn);
-        reset=findViewById(R.id.reset_btn);
-        tvTable=findViewById(R.id.tv_table);
-        generateTable.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               if(numberEt.getText().toString().isEmpty())
-               {
-                   numberEt.setError("Enter Number");
-                   return;
-               }
-
-               generateTable(Integer.parseInt(numberEt.getText().toString()));
-            }
-        });
-
-        reset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               reset();
-            }
-        });
-
-
+        recyclerView=findViewById(R.id.rv_taskList);
+       initRecycler();
 
 
     }
 
 
-
-
-
-
-    public  void generateTable(int no)
+    public void  initRecycler()
     {
-
-        numberEt.setVisibility(View.GONE);
-        generateTable.setVisibility(View.GONE);
-        reset.setVisibility(View.VISIBLE);
-        int temp;
-        for(int i=1;i<50;i++)
-        {
-            temp=no*i;
-            tvTable.setText(tvTable.getText()+"\n  "+no+" X " + i +" = "+temp);
-        }
+        list.add(new Task("MORNING WALK","jsjsjjsjs"));
+        list.add(new Task("TAKE BREAKFAST","jsjsjjsjs"));
+        list.add(new Task("Go to Office","jsjsjjsjs"));
+        TaskAdapter taskAdapter=new TaskAdapter(list);
+        recyclerView.setAdapter(taskAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
-    public  void reset()
-    {
-        numberEt.setVisibility(View.VISIBLE);
-        generateTable.setVisibility(View.VISIBLE);
-        numberEt.setText("");
-        tvTable.setText("");
-        reset.setVisibility(View.GONE);
-    }
+
+
+
+
+
 
 
 }
