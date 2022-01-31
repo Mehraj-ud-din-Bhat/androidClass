@@ -1,4 +1,4 @@
-package com.example.personapp;
+package com.example.personapp.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.personapp.R;
+import com.example.personapp.models.Task;
 
 import java.util.ArrayList;
 
@@ -33,6 +36,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         // Get the data model based on position
        Task task= taskList.get(position);
        holder.taskTitle.setText("["+position+"] "+task.taskName);
+       if(task.taskDescription.isEmpty())
+       {
+           holder.taskDesc.setText("NO DESC");
+       }
+       else
+       holder.taskDesc.setText(task.taskDescription);
 
 
     }
@@ -46,10 +55,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public static class TaskHolder extends RecyclerView.ViewHolder {
         TextView taskTitle;
+        TextView taskDesc;
 
         public TaskHolder(View itemView) {
             super(itemView);
             taskTitle=itemView.findViewById(R.id.taskTitle);
+            taskDesc=itemView.findViewById(R.id.taskDesc);
 
         }
     }
