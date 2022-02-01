@@ -26,7 +26,7 @@
             android:textSize="25dp" />
 
         <ImageView
-            android:id="@+id/addTask_icon"
+            android:id="@+id/img_cancel_task_icon"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_close"
@@ -42,42 +42,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar"
-        android:padding="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
+
         <EditText
-            android:id="@+id/tasKName"
+            android:id="@+id/et_tasKName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="20dp"
             android:background="@drawable/et_bg"
             android:hint="Enter Task Name"
-            ></EditText>
+            android:inputType="text"
+            android:maxLines="1"
+            android:padding="20dp"></EditText>
+
         <EditText
-            android:id="@+id/tasKDesc"
+            android:id="@+id/et_tasKDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="200dp"
-            android:inputType="text"
-            android:gravity="top"
-            android:padding="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/et_bg"
+            android:gravity="top"
             android:hint="Enter Task Desc"
-            ></EditText>
+            android:inputType="text"
+            android:minHeight="200dp"
+            android:padding="20dp"></EditText>
 
         <Button
-            android:id="@+id/saveTask"
+            android:id="@+id/btn_saveTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save Task"
-            android:textAllCaps="false"
-            android:padding="20dp"
-            android:backgroundTint="#595858"
             android:layout_marginTop="20dp"
-            />
-
+            android:backgroundTint="#595858"
+            android:padding="20dp"
+            android:text="Save Task"
+            android:textAllCaps="false" />
 
 
     </LinearLayout>

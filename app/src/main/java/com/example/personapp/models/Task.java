@@ -4,6 +4,12 @@ public class Task {
   public      String taskName;
     public    String taskDescription;
 
+
+    public Task() {
+        taskName="";
+        taskDescription="";
+    }
+
     public Task(String taskName) {
         this.taskName = taskName;
         taskDescription="";

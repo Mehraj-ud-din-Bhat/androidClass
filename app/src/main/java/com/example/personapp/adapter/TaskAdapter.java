@@ -36,6 +36,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         // Get the data model based on position
        Task task= taskList.get(position);
        holder.taskTitle.setText("["+position+"] "+task.taskName);
+       if(task.taskDescription!=null)
        if(task.taskDescription.isEmpty())
        {
            holder.taskDesc.setText("NO DESC");
