@@ -12,12 +12,13 @@ import com.example.personapp.R;
 import com.example.personapp.models.Task;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
-    ArrayList<Task> taskList;
+    List<Task> taskList;
 
-    public TaskAdapter(ArrayList<Task> taskList) {
+    public TaskAdapter(List<Task> taskList) {
         this.taskList = taskList;
     }
 
@@ -34,18 +35,20 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
     @Override
     public void onBindViewHolder(TaskHolder holder, int position) {
         // Get the data model based on position
-       Task task= taskList.get(position);
-       holder.taskTitle.setText("["+position+"] "+task.taskName);
-       if(task.taskDescription!=null)
-       if(task.taskDescription.isEmpty())
-       {
-           holder.taskDesc.setText("NO DESC");
-       }
-       else
-       holder.taskDesc.setText(task.taskDescription);
-
+        if(taskList!=null) {
+            Task task = taskList.get(position);
+            if(task!=null) {
+                holder.taskTitle.setText("[" + position + "] " + task.taskName);
+                if (task.taskDescription != null)
+                    if (task.taskDescription.isEmpty()) {
+                        holder.taskDesc.setText("NO DESC");
+                    } else
+                        holder.taskDesc.setText(task.taskDescription);
+            }
+        }
 
     }
+
 
     // Returns the total count of items in the list
     @Override

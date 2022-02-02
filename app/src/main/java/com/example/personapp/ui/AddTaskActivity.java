@@ -11,12 +11,14 @@ import android.widget.ImageView;
 
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
+import com.example.personapp.utility.SharedPreferencesUtil;
 
 public class AddTaskActivity extends AppCompatActivity {
 
     EditText etTaskTitle,etTaskDesc;
     Button btnSaveTask;
    ImageView imgCancel;
+   SharedPreferencesUtil sharedPreferencesUtil;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class AddTaskActivity extends AppCompatActivity {
         etTaskDesc=findViewById(R.id.et_tasKDesc);
         btnSaveTask=findViewById(R.id.btn_saveTask);
         imgCancel=findViewById(R.id.img_cancel_task_icon);
+        sharedPreferencesUtil=new SharedPreferencesUtil(this);
         btnSaveTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -38,12 +41,9 @@ public class AddTaskActivity extends AppCompatActivity {
                 }
 
                 // PROCEED FURTHER IF USER
-                 Task task=new Task(etTaskTitle.getText().toString(),etTaskDesc.getText().toString());
-                Intent intent=new Intent(AddTaskActivity.this,MainActivity.class);
-                intent.putExtra("title",task.taskName);
-                intent.putExtra("desc",task.taskDescription);
-                startActivity(intent);
-                  finish();
+                   Task task=new Task(etTaskTitle.getText().toString(),etTaskDesc.getText().toString());
+                   sharedPreferencesUtil.addTask(task);
+                   finish();
 
 
             }

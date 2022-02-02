@@ -12,15 +12,19 @@ import android.widget.ImageView;
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
 import com.example.personapp.adapter.TaskAdapter;
+import com.example.personapp.utility.SharedPreferencesUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 
-  public  static ArrayList<Task> list=new ArrayList<>();
+  public  static List<Task> list=new ArrayList<>();
    RecyclerView recyclerView;
    ImageView   addTask;
+
+   SharedPreferencesUtil sharedPreferencesUtil;
 
 
 
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         recyclerView=findViewById(R.id.rv_taskList);
         addTask=findViewById(R.id.addTask_icon);
+        sharedPreferencesUtil=new SharedPreferencesUtil(this);
         handleIntent();
         initRecycler();
         setListeners();
@@ -54,9 +59,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initRecycler();
+    }
 
     public void  initRecycler()
     {
+         list=sharedPreferencesUtil.getTasks();
 
        TaskAdapter taskAdapter=new TaskAdapter(list);
         recyclerView.setAdapter(taskAdapter);
