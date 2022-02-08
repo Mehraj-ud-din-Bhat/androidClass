@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
@@ -36,28 +37,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView=findViewById(R.id.rv_taskList);
         addTask=findViewById(R.id.addTask_icon);
         sharedPreferencesUtil=new SharedPreferencesUtil(this);
-        handleIntent();
+
         initRecycler();
         setListeners();
 
 
     }
 
-  void  handleIntent()
-    {
-        if(getIntent()!=null) {
-            String title =null;
-            title = getIntent().getStringExtra("title");
-            String desc = getIntent().getStringExtra("desc");
-            if(title==null)
-            {
-                return;
-            }
-            Task task = new Task(title, desc);
-            addTask(task);
-        }
 
-    }
 
     @Override
     protected void onResume() {
@@ -67,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void  initRecycler()
     {
+        // RETRIVE TASKS FROM SP
          list=sharedPreferencesUtil.getTasks();
 
+
+         // INIT ADAPTER
        TaskAdapter taskAdapter=new TaskAdapter(list);
         recyclerView.setAdapter(taskAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

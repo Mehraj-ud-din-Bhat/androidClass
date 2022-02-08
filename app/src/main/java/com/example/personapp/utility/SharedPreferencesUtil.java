@@ -18,6 +18,8 @@ public class SharedPreferencesUtil {
     SharedPreferences.Editor editor;
     String MY_PREF = "my_pref";
 
+
+
     public SharedPreferencesUtil(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences(MY_PREF, Context.MODE_PRIVATE);
@@ -25,19 +27,17 @@ public class SharedPreferencesUtil {
     }
 
 
-    public void addTask(Task task) {
-        ArrayList<Task> lstArrayList=new ArrayList<>();
+    public void addTask(Task mytask) {
+
+        ArrayList<Task> lstArrayList=(ArrayList<Task>) getTasks();
         Gson gson = new Gson();
-        String jsonText = sharedPreferences.getString("tasks", null);
-        if(jsonText!=null) {
-            lstArrayList = gson.fromJson(jsonText,
-                    new TypeToken<List<Task>>() {
-                    }.getType());
-        }
-        lstArrayList.add(task);
+        lstArrayList.add(mytask);
         String jsonString=gson.toJson(lstArrayList);
-        editor.putString("tasks",jsonString);
-        editor.apply();
+
+
+
+     editor.putString("tasks",jsonString);
+     editor.apply();
 
 
 
@@ -48,9 +48,13 @@ public class SharedPreferencesUtil {
     {
         Gson gson = new Gson();
         String jsonText = sharedPreferences.getString("tasks", null);
+
         ArrayList<Task> lstArrayList = gson.fromJson(jsonText,
                 new TypeToken<List<Task>>(){}.getType());
-
+    if(lstArrayList==null)
+     {
+    lstArrayList=new ArrayList<>();
+     }
         //Log.d("LIST",""+taskList.size());
         return  lstArrayList;
 
