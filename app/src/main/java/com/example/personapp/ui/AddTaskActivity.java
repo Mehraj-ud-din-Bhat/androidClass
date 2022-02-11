@@ -11,14 +11,16 @@ import android.widget.ImageView;
 
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
+import com.example.personapp.utility.Database;
 import com.example.personapp.utility.SharedPreferencesUtil;
 
 public class AddTaskActivity extends AppCompatActivity {
 
     EditText etTaskTitle,etTaskDesc;
     Button btnSaveTask;
-   ImageView imgCancel;
+     ImageView imgCancel;
    SharedPreferencesUtil sharedPreferencesUtil;
+   Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +30,7 @@ public class AddTaskActivity extends AppCompatActivity {
         btnSaveTask=findViewById(R.id.btn_saveTask);
         imgCancel=findViewById(R.id.img_cancel_task_icon);
         sharedPreferencesUtil=new SharedPreferencesUtil(this);
+        database=new Database(this);
         btnSaveTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +45,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 // PROCEED FURTHER IF USER
                    Task task=new Task(etTaskTitle.getText().toString(),etTaskDesc.getText().toString());
-                   sharedPreferencesUtil.addTask(task);
+                   database.addTask(task);
                    finish();
 
 

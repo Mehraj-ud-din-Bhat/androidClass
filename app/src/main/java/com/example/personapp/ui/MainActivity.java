@@ -21,53 +21,18 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
 
-  public  static List<Task> list=new ArrayList<>();
-   RecyclerView recyclerView;
-   ImageView   addTask;
-
-   SharedPreferencesUtil sharedPreferencesUtil;
-
-
-
-
+    ImageView   addLaptop;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        recyclerView=findViewById(R.id.rv_taskList);
-        addTask=findViewById(R.id.addTask_icon);
-        sharedPreferencesUtil=new SharedPreferencesUtil(this);
-
-        initRecycler();
+        addLaptop=findViewById(R.id.addTask_icon);
         setListeners();
 
-
     }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initRecycler();
-    }
-
-    public void  initRecycler()
-    {
-        // RETRIVE TASKS FROM SP
-         list=sharedPreferencesUtil.getTasks();
-
-
-         // INIT ADAPTER
-       TaskAdapter taskAdapter=new TaskAdapter(list);
-        recyclerView.setAdapter(taskAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
-
-
     void setListeners()
     {
-        addTask.setOnClickListener(new View.OnClickListener() {
+        addLaptop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this,AddTaskActivity.class);
@@ -80,9 +45,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public static void addTask(Task task){
-        list.add(task);
+    @Override
+    protected void onResume() {
+        super.onResume();
+
     }
+
+
+
+
+
 
 
 

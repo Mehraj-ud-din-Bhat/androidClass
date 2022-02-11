@@ -27,39 +27,7 @@ public class SharedPreferencesUtil {
     }
 
 
-    public void addTask(Task mytask) {
 
-        ArrayList<Task> lstArrayList=(ArrayList<Task>) getTasks();
-        Gson gson = new Gson();
-        lstArrayList.add(mytask);
-        String jsonString=gson.toJson(lstArrayList);
-
-
-
-     editor.putString("tasks",jsonString);
-     editor.apply();
-
-
-
-
-
-    }
-    public List<Task> getTasks()
-    {
-        Gson gson = new Gson();
-        String jsonText = sharedPreferences.getString("tasks", null);
-
-        ArrayList<Task> lstArrayList = gson.fromJson(jsonText,
-                new TypeToken<List<Task>>(){}.getType());
-    if(lstArrayList==null)
-     {
-    lstArrayList=new ArrayList<>();
-     }
-        //Log.d("LIST",""+taskList.size());
-        return  lstArrayList;
-
-
-    }
 
 }
 
