@@ -6,28 +6,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.personapp.R;
-import com.example.personapp.models.Task;
 import com.example.personapp.adapter.TaskAdapter;
-import com.example.personapp.utility.SharedPreferencesUtil;
+import com.example.personapp.models.Task;
+import com.example.personapp.utility.Database;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
 
     ImageView   addLaptop;
+    Database database;
+    ArrayList<Task> list=new ArrayList<>();
+    RecyclerView rv_taskList;
+    TaskAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         addLaptop=findViewById(R.id.addTask_icon);
+        rv_taskList=findViewById(R.id.rv_taskList);
+        database=new Database(this);
         setListeners();
+        initRecycler();
 
     }
     void setListeners()
@@ -40,6 +46,25 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
+    }
+
+    void initRecycler()
+    {
+        database.getTasks(this);
+        adapter=new TaskAdapter(list);
+        rv_taskList.setAdapter(adapter);
+        rv_taskList.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+
+    public  void onTasksReceived(ArrayList<Task> taskArrayList)
+    {
+        this.list=taskArrayList;
+        Log.d("DB","ALL TASKS WERE Recevied: "+taskArrayList.size());
+        adapter.refresh(this.list);
 
 
     }

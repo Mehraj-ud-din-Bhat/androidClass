@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
@@ -20,6 +19,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     public TaskAdapter(List<Task> taskList) {
         this.taskList = taskList;
+    }
+
+    public  void  refresh(List<Task> list)
+    {
+        taskList=list;
+        notifyDataSetChanged();
     }
 
     @Override

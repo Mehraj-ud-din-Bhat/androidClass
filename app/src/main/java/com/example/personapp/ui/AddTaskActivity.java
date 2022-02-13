@@ -2,7 +2,6 @@ package com.example.personapp.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +12,7 @@ import com.example.personapp.R;
 import com.example.personapp.models.Task;
 import com.example.personapp.utility.Database;
 import com.example.personapp.utility.SharedPreferencesUtil;
+
 
 public class AddTaskActivity extends AppCompatActivity {
 
@@ -51,7 +51,6 @@ public class AddTaskActivity extends AppCompatActivity {
 
             }
         });
-
         imgCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
