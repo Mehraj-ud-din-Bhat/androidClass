@@ -35,7 +35,6 @@ public class Database {
         databaseReference.push().setValue(task).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-
                 Toast.makeText(context,"TASK ADDED SUCCESSFULLY",Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -48,6 +47,23 @@ public class Database {
     }
 
 
+    public void updateTask(Task task,String key)
+    {
+        databaseReference.child(key).setValue(task).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(context,"TASK UPDATED SUCCESSFULLY",Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context,"THERE WAS AN ISSUE WHILE ADDING THE TASK PLEASE CHECK LATER",Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
+     // GETS TAKS FROM FIREBA
     public  void   getTasks(MainActivity mainActivity)
     {
         ArrayList<Task> list=new ArrayList<>();
@@ -56,14 +72,16 @@ public class Database {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                   list.clear();
+                  Task task;
                   for(DataSnapshot  dataSnapshot:snapshot.getChildren())
                   {
-                      list.add(dataSnapshot.getValue(Task.class));
+                      task=dataSnapshot.getValue(Task.class);
+                      task.key=dataSnapshot.getKey();
+                      list.add(task);
+
                   }
-                Log.d("DB","ALL TASKS WERE LOADED");
+                  Log.d("DB","ALL TASKS WERE LOADED");
                   mainActivity.onTasksReceived(list);
-
-
             }
 
             @Override

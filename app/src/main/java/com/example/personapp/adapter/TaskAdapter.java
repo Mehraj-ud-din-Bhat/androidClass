@@ -1,6 +1,7 @@
 package com.example.personapp.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
+import com.example.personapp.ui.AddTaskActivity;
+import com.example.personapp.ui.MainActivity;
 
 import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
     List<Task> taskList;
+    Context context;
 
-    public TaskAdapter(List<Task> taskList) {
+    public TaskAdapter(List<Task> taskList,Context context) {
         this.taskList = taskList;
+        this.context=context;
     }
 
     public  void  refresh(List<Task> list)
@@ -51,6 +56,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
                         holder.taskDesc.setText(task.taskDescription);
             }
         }
+        final int  pos=position;
+
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity)context).taskClicked(taskList.get(pos));
+            }
+        });
 
     }
 
@@ -63,6 +76,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
 
 
     public static class TaskHolder extends RecyclerView.ViewHolder {
+        View root;
         TextView taskTitle;
         TextView taskDesc;
 
@@ -70,6 +84,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             super(itemView);
             taskTitle=itemView.findViewById(R.id.taskTitle);
             taskDesc=itemView.findViewById(R.id.taskDesc);
+            root=itemView.findViewById(R.id.root);
 
         }
     }

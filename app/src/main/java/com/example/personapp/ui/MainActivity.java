@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     void initRecycler()
     {
         database.getTasks(this);
-        adapter=new TaskAdapter(list);
+        adapter=new TaskAdapter(list,this);
         rv_taskList.setAdapter(adapter);
         rv_taskList.setLayoutManager(new LinearLayoutManager(this));
 
@@ -74,6 +74,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+    }
+
+
+
+    public  void taskClicked(Task task)
+    {
+        Intent intent=new Intent(this, AddTaskActivity.class);
+        intent.putExtra("intention","update");
+        intent.putExtra("key",task.key);
+        intent.putExtra("name",task.taskName);
+        intent.putExtra("desc",task.taskDescription);
+        startActivity(intent);
     }
 
 

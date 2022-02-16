@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.personapp.R;
 import com.example.personapp.models.Task;
@@ -18,9 +19,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
     EditText etTaskTitle,etTaskDesc;
     Button btnSaveTask;
-     ImageView imgCancel;
+    ImageView imgCancel;
    SharedPreferencesUtil sharedPreferencesUtil;
    Database database;
+   TextView toolBarTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +31,27 @@ public class AddTaskActivity extends AppCompatActivity {
         etTaskDesc=findViewById(R.id.et_tasKDesc);
         btnSaveTask=findViewById(R.id.btn_saveTask);
         imgCancel=findViewById(R.id.img_cancel_task_icon);
+        toolBarTitle=findViewById(R.id.toolbar_title);
         sharedPreferencesUtil=new SharedPreferencesUtil(this);
         database=new Database(this);
+
+         String intention=getIntent().getStringExtra("intention");
+        String key=getIntent().getStringExtra("key");
+         String taskName=getIntent().getStringExtra("name");
+         String taskDesc=getIntent().getStringExtra("desc");
+
+         if(intention!=null)
+         {
+            if( intention.equals("update"))
+             {
+                 toolBarTitle.setText("Update Task");
+                 btnSaveTask.setText("Update Task");
+                 etTaskTitle.setText(taskName);
+                 etTaskDesc.setText(taskDesc);
+
+             }
+         }
+
         btnSaveTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +66,16 @@ public class AddTaskActivity extends AppCompatActivity {
 
                 // PROCEED FURTHER IF USER
                    Task task=new Task(etTaskTitle.getText().toString(),etTaskDesc.getText().toString());
-                   database.addTask(task);
+                if(intention!=null)
+                {
+                    if (intention.equals("update"))
+                    {
+                        database.updateTask(task,key);
+                    }
+                }else {
+                    database.addTask(task);
+                }
+
                    finish();
 
 
