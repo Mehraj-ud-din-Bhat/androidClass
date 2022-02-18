@@ -89,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public  void deleteTask(Task task)
+    {
+       database.deleteTask(task.key);
+    }
+
+
 
 
 

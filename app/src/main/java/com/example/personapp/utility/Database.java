@@ -95,6 +95,14 @@ public class Database {
     }
 
 
+    public  void deleteTask(String key)
+    {
+
+        databaseReference.child(key).removeValue();
+
+    }
+
+
 
 
 }

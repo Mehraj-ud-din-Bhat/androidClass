@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -65,6 +66,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
             }
         });
 
+        holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ((MainActivity)context).deleteTask(taskList.get(pos));
+
+
+            }
+        });
+
     }
 
 
@@ -79,12 +90,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskHolder> {
         View root;
         TextView taskTitle;
         TextView taskDesc;
+        ImageView  deleteIcon;
 
         public TaskHolder(View itemView) {
             super(itemView);
             taskTitle=itemView.findViewById(R.id.taskTitle);
             taskDesc=itemView.findViewById(R.id.taskDesc);
             root=itemView.findViewById(R.id.root);
+            deleteIcon=itemView.findViewById(R.id.taskDeleteIcon);
 
         }
     }
