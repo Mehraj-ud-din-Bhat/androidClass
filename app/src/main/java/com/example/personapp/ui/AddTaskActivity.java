@@ -34,14 +34,13 @@ public class AddTaskActivity extends AppCompatActivity {
         toolBarTitle=findViewById(R.id.toolbar_title);
         sharedPreferencesUtil=new SharedPreferencesUtil(this);
         database=new Database(this);
-
          String intention=getIntent().getStringExtra("intention");
-        String key=getIntent().getStringExtra("key");
+         String key=getIntent().getStringExtra("key");
          String taskName=getIntent().getStringExtra("name");
          String taskDesc=getIntent().getStringExtra("desc");
-
          if(intention!=null)
          {
+          //   TRUE
             if( intention.equals("update"))
              {
                  toolBarTitle.setText("Update Task");
