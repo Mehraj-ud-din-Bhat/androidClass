@@ -1,105 +1,39 @@
 package com.example.personapp.utility;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.example.personapp.models.Task;
-import com.example.personapp.ui.MainActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.personapp.models.Message;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 
 public class Database {
-      Context context;
-      FirebaseDatabase firebaseDatabase;
-      DatabaseReference databaseReference;
-    public Database(Context context) {
-        this.context = context;
-        firebaseDatabase=FirebaseDatabase.getInstance();
-        databaseReference=firebaseDatabase.getReference().child("tasks");
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private Context context;
+
+
+    public  Database(Context mContext) {
+      this.context=mContext;
+      firebaseDatabase=FirebaseDatabase.getInstance();
+      databaseReference=firebaseDatabase.getReference().child("chats");
     }
 
-   public void addTask(Task task)
+
+
+    public  void sendMessage(Message message)
     {
-        databaseReference.push().setValue(task).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(context,"TASK ADDED SUCCESSFULLY",Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context,"THERE WAS AN ISSUE WHILE ADDING THE TASK PLEASE CHECK LATER",Toast.LENGTH_LONG).show();
-            }
-        });
+        databaseReference.push().setValue(message);
 
     }
 
 
-    public void updateTask(Task task,String key)
+
+
+
+
+    public  DatabaseReference getChatRefrence()
     {
-        databaseReference.child(key).setValue(task).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(context,"TASK UPDATED SUCCESSFULLY",Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(context,"THERE WAS AN ISSUE WHILE ADDING THE TASK PLEASE CHECK LATER",Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-
-     // GETS TAKS FROM FIREBA
-    public  void   getTasks(MainActivity mainActivity)
-    {
-        ArrayList<Task> list=new ArrayList<>();
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                  list.clear();
-                  Task task;
-                  for(DataSnapshot  dataSnapshot:snapshot.getChildren())
-                  {
-                      task=dataSnapshot.getValue(Task.class);
-                      task.key=dataSnapshot.getKey();
-                      list.add(task);
-
-                  }
-                  Log.d("DB","ALL TASKS WERE LOADED");
-                  mainActivity.onTasksReceived(list);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-    }
-
-
-    public  void deleteTask(String key)
-    {
-
-        databaseReference.child(key).removeValue();
-
+        return  this.databaseReference;
     }
 
 

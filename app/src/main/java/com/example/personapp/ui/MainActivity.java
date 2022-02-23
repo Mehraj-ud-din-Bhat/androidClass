@@ -8,98 +8,53 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.personapp.R;
-import com.example.personapp.adapter.TaskAdapter;
-import com.example.personapp.models.Task;
+import com.example.personapp.models.Message;
+import com.example.personapp.models.User;
 import com.example.personapp.utility.Database;
+import com.example.personapp.utility.SharedPref;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
+    ArrayList<User> users =new ArrayList<>();
+     Database database;
 
-    ImageView   addLaptop;
-    Database database;
-    ArrayList<Task> list=new ArrayList<>();
-    RecyclerView rv_taskList;
-    TaskAdapter adapter;
+     EditText editTextMessage;
+     ImageView sendicon;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addLaptop=findViewById(R.id.addTask_icon);
-        rv_taskList=findViewById(R.id.rv_taskList);
+        editTextMessage=findViewById(R.id.chatMessage);
+        sendicon=findViewById(R.id.sendIcon);
+        users.add(new User("MEHRAJ"));
+        users.add(new User("Louis"));
         database=new Database(this);
-        setListeners();
-        initRecycler();
-
-    }
-    void setListeners()
-    {
-        addLaptop.setOnClickListener(new View.OnClickListener() {
+      SharedPref.storeUser("MEHRAJ",this);
+        sendicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,AddTaskActivity.class);
-
-                startActivity(intent);
-
+                if(editTextMessage.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getBaseContext(),"ENTER MESSAGE TO SEND",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
+                database.sendMessage(message);
             }
         });
 
 
-    }
-
-    void initRecycler()
-    {
-        database.getTasks(this);
-        adapter=new TaskAdapter(list,this);
-        rv_taskList.setAdapter(adapter);
-        rv_taskList.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
-
-    public  void onTasksReceived(ArrayList<Task> taskArrayList)
-    {
-        this.list=taskArrayList;
-        Log.d("DB","ALL TASKS WERE Recevied: "+taskArrayList.size());
-        adapter.refresh(this.list);
-
-
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
-
-
-    public  void taskClicked(Task task)
-    {
-        Intent intent=new Intent(this, AddTaskActivity.class);
-        intent.putExtra("intention","update");
-        intent.putExtra("key",task.key);
-        intent.putExtra("name",task.taskName);
-        intent.putExtra("desc",task.taskDescription);
-        startActivity(intent);
-    }
-
-
-    public  void deleteTask(Task task)
-    {
-       database.deleteTask(task.key);
-    }
-
-
-
-
-
-
 
 
 
