@@ -23,11 +23,9 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<User> users =new ArrayList<>();
-     Database database;
-
-     EditText editTextMessage;
-     ImageView sendicon;
+       Database database;
+       EditText editTextMessage;
+       ImageView sendicon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
-        users.add(new User("MEHRAJ"));
-        users.add(new User("Louis"));
         database=new Database(this);
+
+
+
       SharedPref.storeUser("MEHRAJ",this);
         sendicon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
                 database.sendMessage(message);
+
+
+
+
             }
         });
 
