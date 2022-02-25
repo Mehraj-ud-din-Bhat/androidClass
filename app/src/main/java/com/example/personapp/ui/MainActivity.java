@@ -1,5 +1,7 @@
 package com.example.personapp.ui;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,19 +15,27 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.personapp.R;
+import com.example.personapp.adapter.ChatsAdapter;
 import com.example.personapp.models.Message;
 import com.example.personapp.models.User;
 import com.example.personapp.utility.Database;
 import com.example.personapp.utility.SharedPref;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
        Database database;
        EditText editTextMessage;
        ImageView sendicon;
+       RecyclerView chatsRv;
+       ChatsAdapter chatsAdapter;
+       List<Message> messageList=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +43,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
+        chatsRv=findViewById(R.id.rv_chats);
+        chatsAdapter=new ChatsAdapter(messageList,this);
+        chatsRv.setAdapter(chatsAdapter);
+        chatsRv.setLayoutManager(new LinearLayoutManager(this));
+
+
         database=new Database(this);
-
-
-
-      SharedPref.storeUser("MEHRAJ",this);
         sendicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,8 +67,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        setChatRefrence();
 
 
+
+    }
+
+    void  setChatRefrence()
+    {
+        database.getChatRefrence().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+               messageList.add(snapshot.getValue(Message.class));
+             chatsAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
