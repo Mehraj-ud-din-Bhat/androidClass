@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseError;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,13 +38,18 @@ public class MainActivity extends AppCompatActivity {
        ChatsAdapter chatsAdapter;
        List<Message> messageList=new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
         chatsRv=findViewById(R.id.rv_chats);
+
         chatsAdapter=new ChatsAdapter(messageList,this);
         chatsRv.setAdapter(chatsAdapter);
         chatsRv.setLayoutManager(new LinearLayoutManager(this));
@@ -60,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
                 database.sendMessage(message);
+                editTextMessage.getText().clear();
+
+
 
 
 
@@ -78,8 +87,11 @@ public class MainActivity extends AppCompatActivity {
         database.getChatRefrence().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-               messageList.add(snapshot.getValue(Message.class));
-             chatsAdapter.notifyDataSetChanged();
+
+                messageList.add(snapshot.getValue(Message.class));
+               chatsAdapter.notifyDataSetChanged();
+               chatsRv.scrollToPosition(messageList.size()-1);
+
 
             }
 

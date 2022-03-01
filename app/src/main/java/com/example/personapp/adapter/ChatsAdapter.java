@@ -54,13 +54,18 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolde
               {
                   holder.messageText.setTextColor(context.getColor(R.color.blue));
                   holder.messageText.setGravity(Gravity.RIGHT);
+                  holder.messageTime.setGravity(Gravity.RIGHT);
+                  holder.messageUser.setGravity(Gravity.RIGHT);
               }else {
                   holder.messageText.setTextColor(context.getColor(R.color.black));
                   holder.messageText.setGravity(Gravity.LEFT);
+                  holder.messageTime.setGravity(Gravity.LEFT);
+                  holder.messageUser.setGravity(Gravity.LEFT);
               }
 
-
               holder.messageText.setText(messageList.get(position).messageText);
+              holder.messageTime.setText(messageList.get(position).getMessageTime());
+              holder.messageUser.setText(messageList.get(position).senderName);
           }
     }
 
@@ -68,6 +73,31 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolde
     {
         this.messageList=messageList;
         notifyDataSetChanged();
+    }
+
+    public static String formatChatTime(long chatTime, boolean showHour) {
+        if (chatTime < 1) {
+            return "00:00";
+        }//from w w w.j a v a 2 s  .  com
+
+        long s = chatTime % 60;
+        long m = chatTime / 60;
+        if (showHour) {
+            m = m % 60;
+        }
+
+        long h = chatTime / (60 * 60);
+
+        String secStr = (s >= 10 ? ("" + s) : ("0" + s));
+        String minStr = (m >= 10 ? ("" + m) : ("0" + m));
+        String hourStr = (h >= 10 ? ("" + h) : ("0" + h));
+
+        if (showHour && h != 0) {
+            String separHour = hourStr.trim().equals("") ? "" : ":";
+            return hourStr + separHour + minStr + ":" + secStr;
+        } else {
+            return minStr + ":" + secStr;
+        }
     }
 
 
@@ -84,10 +114,13 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolde
 
     public static class MessageHolder extends RecyclerView.ViewHolder {
             TextView messageText;
-
+            TextView messageTime;
+            TextView messageUser;
         public MessageHolder(View itemView) {
             super(itemView);
              messageText=itemView.findViewById(R.id.messageText);
+             messageTime=itemView.findViewById(R.id.messageTime);
+             messageUser=itemView.findViewById(R.id.messageUser);
 
         }
     }
