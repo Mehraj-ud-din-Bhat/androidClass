@@ -8,10 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.personapp.R;
@@ -23,6 +28,7 @@ import com.example.personapp.utility.SharedPref;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
        ImageView sendicon;
        RecyclerView chatsRv;
        ChatsAdapter chatsAdapter;
+       TextView isOnline,isTyping;
        List<Message> messageList=new ArrayList<>();
 
 
@@ -49,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
         chatsRv=findViewById(R.id.rv_chats);
+        isTyping=findViewById(R.id.userTypingSattus);
+        isOnline=findViewById(R.id.userOnlineStatus);
+        isTyping.setVisibility(View.GONE);
+        isOnline.setVisibility(View.GONE);
 
         chatsAdapter=new ChatsAdapter(messageList,this);
         chatsRv.setAdapter(chatsAdapter);
@@ -56,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         database=new Database(this);
+        database.setMeOnline();
         sendicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,22 +76,93 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(),"ENTER MESSAGE TO SEND",Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
                 database.sendMessage(message);
                 editTextMessage.getText().clear();
 
+            }
+        });
 
+        editTextMessage.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                  database.updateTypingStatus(1);
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                database.updateTypingStatus(1);
+            }
 
-
+            @Override
+            public void afterTextChanged(Editable editable) {
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        database.updateTypingStatus(0);
+                    }
+                }, 100);
 
             }
         });
 
         setChatRefrence();
+        bindOnlineStatus();
+        bindTypingStatus();
 
 
 
+
+    }
+
+
+    void  bindOnlineStatus()
+    {
+        database.isOnline("louis99").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot!=null && snapshot.getValue(Integer.class)!=null) {
+                    Integer value = snapshot.getValue(Integer.class);
+                    if (value == 1) {
+                        isOnline.setVisibility(View.VISIBLE);
+                        isOnline.setText("Online");
+                    } else {
+                        isOnline.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+    void  bindTypingStatus()
+    {
+        database.isTyping("louis99").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Log.d("TY","JJS");
+                if(snapshot!=null && snapshot.getValue(Integer.class)!=null) {
+                    Integer value = snapshot.getValue(Integer.class);
+                    if (value == 1) {
+                        isTyping.setVisibility(View.VISIBLE);
+                        isTyping.setText("Typing...");
+                    } else {
+                        isTyping.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     void  setChatRefrence()
@@ -117,9 +200,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        database.setMeOffline();
+    }
 }

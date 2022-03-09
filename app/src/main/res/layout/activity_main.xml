@@ -6,12 +6,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/userOnlineStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Online"
+        android:textColor="#39CF44"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <TextView
+        android:id="@+id/userTypingSattus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:text="Typing"
+        app:layout_constraintTop_toBottomOf="@id/userOnlineStatus"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chats"
         android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userTypingSattus"
         app:layout_constraintBottom_toTopOf="@+id/chatComposer">
     </androidx.recyclerview.widget.RecyclerView>
 

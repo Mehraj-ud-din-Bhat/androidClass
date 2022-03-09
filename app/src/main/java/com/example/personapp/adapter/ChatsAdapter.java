@@ -22,6 +22,8 @@ import com.example.personapp.models.Message;
 import com.example.personapp.models.User;
 import com.example.personapp.utility.SharedPref;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolder> {
@@ -64,11 +66,19 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolde
               }
 
               holder.messageText.setText(messageList.get(position).messageText);
-              holder.messageTime.setText(messageList.get(position).getMessageTime());
+              Message message=messageList.get(position);
+              holder.messageTime.setText(getMessageTime(message.date));
               holder.messageUser.setText(messageList.get(position).senderName);
           }
     }
 
+
+    public  String  getMessageTime(Date date)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String formattedDate= sdf.format(date);
+        return  formattedDate;
+    }
    public void refresh(List<Message> messageList)
     {
         this.messageList=messageList;
