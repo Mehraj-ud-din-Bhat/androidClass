@@ -35,7 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity {
 
        Database database;
        EditText editTextMessage;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
        ChatsAdapter chatsAdapter;
        TextView isOnline,isTyping;
        List<Message> messageList=new ArrayList<>();
+       String chatChannel;
 
 
 
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
         chatsRv=findViewById(R.id.rv_chats);
@@ -60,12 +59,11 @@ public class MainActivity extends AppCompatActivity {
         isOnline=findViewById(R.id.userOnlineStatus);
         isTyping.setVisibility(View.GONE);
         isOnline.setVisibility(View.GONE);
-
         chatsAdapter=new ChatsAdapter(messageList,this);
         chatsRv.setAdapter(chatsAdapter);
         chatsRv.setLayoutManager(new LinearLayoutManager(this));
-
-
+        String chatReceiverPhone=getIntent().getStringExtra("phone");
+        chatChannel=SharedPref.getCurrentuser(this)+"-"+chatReceiverPhone;
         database=new Database(this);
         database.setMeOnline();
         sendicon.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
-                database.sendMessage(message);
+
+
+                database.sendMessage(chatChannel,message);
                 editTextMessage.getText().clear();
 
             }
@@ -167,13 +167,12 @@ public class MainActivity extends AppCompatActivity {
 
     void  setChatRefrence()
     {
-        database.getChatRefrence().addChildEventListener(new ChildEventListener() {
+        database.getChatRefrence().child(chatChannel).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
                 messageList.add(snapshot.getValue(Message.class));
-               chatsAdapter.notifyDataSetChanged();
-               chatsRv.scrollToPosition(messageList.size()-1);
+                chatsAdapter.notifyDataSetChanged();
+                chatsRv.scrollToPosition(messageList.size()-1);
 
 
             }

@@ -17,14 +17,13 @@
         />
 
     <EditText
-        android:id="@+id/phoneNumber"
+        android:id="@+id/userName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Phone Number"
         />
 
     <Button
-        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

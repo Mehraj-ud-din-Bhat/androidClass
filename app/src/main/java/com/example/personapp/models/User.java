@@ -2,18 +2,43 @@ package com.example.personapp.models;
 
 public class User {
     String userName;
+    String phoneNumber;
     String userProfession;
     String userPassword;
     String userEmail;
+    Integer isLoggedIn;
 
-    public User(String userName) {
-        this.userName = userName;
+
+    public User() {
     }
 
+    public User(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Integer getIsLoggedIn() {
+        return isLoggedIn;
+    }
+
+    public void setIsLoggedIn(Integer isLoggedIn) {
+        this.isLoggedIn = isLoggedIn;
+    }
 
     public String getUserName() {
         return userName;
     }
+
+
 
     public void setUserName(String userName) {
         this.userName = userName;

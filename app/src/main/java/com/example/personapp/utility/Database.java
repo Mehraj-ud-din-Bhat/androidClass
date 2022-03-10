@@ -5,6 +5,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.example.personapp.models.Message;
+import com.example.personapp.models.User;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,11 +28,17 @@ public class Database   {
     }
 
 
+   public void doLogin(User user)
+    {
+       userRef.child(user.getPhoneNumber()).setValue(user);
+    }
 
-    public  void sendMessage(Message message)
+
+
+    public  void sendMessage(String chatChannel,Message message)
     {
 
-        databaseReference.push().setValue(message);
+        databaseReference.child(chatChannel).push().setValue(message);
 
     }
 
@@ -83,6 +90,12 @@ public class Database   {
     {
 
         userRef.child(SharedPref.getCurrentuser(context)).child("isTyping").setValue(status);
+    }
+
+
+    public  DatabaseReference getUsers()
+    {
+      return   userRef ;
     }
 
 
