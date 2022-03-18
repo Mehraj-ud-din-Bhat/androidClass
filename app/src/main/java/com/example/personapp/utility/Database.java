@@ -35,14 +35,18 @@ public class Database   {
 
 
 
-    public  void sendMessage(String chatChannel,Message message)
-    {
+    public  void sendMessage(String chatChannel,Message message) {
 
         databaseReference.child(chatChannel).push().setValue(message);
 
     }
 
 
+    private  void  getChannel(String chatChannel,Message message)
+    {
+
+
+    }
 
 
 

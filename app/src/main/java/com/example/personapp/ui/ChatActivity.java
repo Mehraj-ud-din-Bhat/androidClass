@@ -44,9 +44,10 @@ public class ChatActivity extends AppCompatActivity {
        ChatsAdapter chatsAdapter;
        TextView isOnline,isTyping;
        List<Message> messageList=new ArrayList<>();
-       String chatChannel;
-
-
+       String chatChannel=null;
+       String chatReceiverPhone;
+       TextView toobarTitle;
+       ImageView back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,29 +56,40 @@ public class ChatActivity extends AppCompatActivity {
         editTextMessage=findViewById(R.id.chatMessage);
         sendicon=findViewById(R.id.sendIcon);
         chatsRv=findViewById(R.id.rv_chats);
-        isTyping=findViewById(R.id.userTypingSattus);
-        isOnline=findViewById(R.id.userOnlineStatus);
+        isTyping=findViewById(R.id.userStatus);
+        isOnline=findViewById(R.id.userStatus);
+        back=findViewById(R.id.back);
+        toobarTitle=findViewById(R.id.userPhone);
         isTyping.setVisibility(View.GONE);
         isOnline.setVisibility(View.GONE);
         chatsAdapter=new ChatsAdapter(messageList,this);
         chatsRv.setAdapter(chatsAdapter);
         chatsRv.setLayoutManager(new LinearLayoutManager(this));
-        String chatReceiverPhone=getIntent().getStringExtra("phone");
-        chatChannel=SharedPref.getCurrentuser(this)+"-"+chatReceiverPhone;
+        chatReceiverPhone=getIntent().getStringExtra("phone");
+        toobarTitle.setText(chatReceiverPhone);
+
         database=new Database(this);
         database.setMeOnline();
         sendicon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 if(editTextMessage.getText().toString().isEmpty())
                 {
                     Toast.makeText(getBaseContext(),"ENTER MESSAGE TO SEND",Toast.LENGTH_LONG).show();
+
+                    return;
+                }
+
+                if(chatChannel==null)
+                {
+                    Toast.makeText(getBaseContext(),"Try again",Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 Message message=new Message(editTextMessage.getText().toString(),Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()));
-
-
                 database.sendMessage(chatChannel,message);
                 editTextMessage.getText().clear();
 
@@ -103,14 +115,22 @@ public class ChatActivity extends AppCompatActivity {
                     public void run() {
                         database.updateTypingStatus(0);
                     }
-                }, 100);
+                }, 500);
 
             }
         });
 
-        setChatRefrence();
+
+     back.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+            onBackPressed();
+         }
+     });
+
         bindOnlineStatus();
         bindTypingStatus();
+        setChannelRef();
 
 
 
@@ -120,7 +140,7 @@ public class ChatActivity extends AppCompatActivity {
 
     void  bindOnlineStatus()
     {
-        database.isOnline("louis99").addValueEventListener(new ValueEventListener() {
+        database.isOnline(chatReceiverPhone).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot!=null && snapshot.getValue(Integer.class)!=null) {
@@ -128,7 +148,7 @@ public class ChatActivity extends AppCompatActivity {
                     if (value == 1) {
                         isOnline.setVisibility(View.VISIBLE);
                         isOnline.setText("Online");
-                    } else {
+                    }else {
                         isOnline.setVisibility(View.GONE);
                     }
                 }
@@ -143,7 +163,7 @@ public class ChatActivity extends AppCompatActivity {
     }
     void  bindTypingStatus()
     {
-        database.isTyping("louis99").addValueEventListener(new ValueEventListener() {
+        database.isTyping(chatReceiverPhone).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d("TY","JJS");
@@ -152,8 +172,8 @@ public class ChatActivity extends AppCompatActivity {
                     if (value == 1) {
                         isTyping.setVisibility(View.VISIBLE);
                         isTyping.setText("Typing...");
-                    } else {
-                        isTyping.setVisibility(View.GONE);
+                    }else {
+                        isTyping.setText("Online");
                     }
                 }
             }
@@ -165,6 +185,42 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+
+    void setChannelRef()
+    {
+        String channelPatter1=SharedPref.getCurrentuser(this)+"-"+chatReceiverPhone;
+        String channelPatter2=chatReceiverPhone+"-"+SharedPref.getCurrentuser(this);
+        database.getChatRefrence().addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot snapshot1:snapshot.getChildren())
+                {
+                    if(snapshot1.getKey().equals(channelPatter1))
+                    {
+                        chatChannel=channelPatter1;
+                        break;
+                    }
+
+
+                }
+
+                if(chatChannel==null)
+                {
+                    chatChannel=channelPatter2;
+                }
+
+                setChatRefrence();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
+
     void  setChatRefrence()
     {
         database.getChatRefrence().child(chatChannel).addChildEventListener(new ChildEventListener() {
@@ -173,6 +229,7 @@ public class ChatActivity extends AppCompatActivity {
                 messageList.add(snapshot.getValue(Message.class));
                 chatsAdapter.notifyDataSetChanged();
                 chatsRv.scrollToPosition(messageList.size()-1);
+
 
 
             }

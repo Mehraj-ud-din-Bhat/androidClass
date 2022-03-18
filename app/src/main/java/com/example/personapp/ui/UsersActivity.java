@@ -44,8 +44,10 @@ public class UsersActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userArrayList.clear();
-                for (DataSnapshot snapshot1:snapshot.getChildren())
+
+                for (DataSnapshot snapshot1: snapshot.getChildren())
                 {
+
 
                     User user=snapshot1.getValue(User.class);
                     if(user.getPhoneNumber().equals(SharedPref.getCurrentuser(getApplicationContext())))
@@ -57,6 +59,9 @@ public class UsersActivity extends AppCompatActivity {
                     }
 
                 }
+
+
+
                 usersAdapter.refresh(userArrayList);
             }
 
