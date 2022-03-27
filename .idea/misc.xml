@@ -10,10 +10,11 @@
         <entry key="app/src/main/res/drawable/et_btn.xml" value="0.29444444444444445" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1175" />
         <entry key="app/src/main/res/drawable/icon_add.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/drawable/icon_audio.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/icon_back.xml" value="0.168" />
         <entry key="app/src/main/res/layout/activity_add_task.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2957427978515625" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2988681959069293" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.6549884961998981" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.1872166817769719" />
         <entry key="app/src/main/res/layout/activity_summary.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_users.xml" value="0.1872166817769719" />
