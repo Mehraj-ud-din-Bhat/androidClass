@@ -153,6 +153,7 @@ public class ChatActivity extends AppCompatActivity {
                     // button pressed
                    startRecording();
                     Log.d("USER","TAP");
+                    audioIcon.setImageDrawable(getDrawable(R.drawable.icon_audio_active));
                     return  true;
 
 
@@ -161,6 +162,7 @@ public class ChatActivity extends AppCompatActivity {
                 //    startRecording();
                     Log.d("USER","RELASED");
                    stopRecording();
+                    audioIcon.setImageDrawable(getDrawable(R.drawable.icon_audio_normal));
                     return  true;
 
                 }

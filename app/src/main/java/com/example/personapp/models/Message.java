@@ -15,7 +15,7 @@ public class Message  implements Serializable {
    public    Date   date;
    public    String senderName;
    public    int messageType;
-   public  MessageFile file;
+   public     MessageFile file;
 
 
     public Message(String messageText, Date date, String senderName, int messageType) {

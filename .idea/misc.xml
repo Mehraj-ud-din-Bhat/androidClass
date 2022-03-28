@@ -11,13 +11,17 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1175" />
         <entry key="app/src/main/res/drawable/icon_add.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/drawable/icon_audio.xml" value="0.176" />
+        <entry key="app/src/main/res/drawable/icon_audio_active.xml" value="0.176" />
+        <entry key="app/src/main/res/drawable/icon_audio_normal.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/icon_back.xml" value="0.168" />
+        <entry key="app/src/main/res/drawable/icon_play.xml" value="0.1555" />
         <entry key="app/src/main/res/layout/activity_add_task.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2957427978515625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.6549884961998981" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.1872166817769719" />
         <entry key="app/src/main/res/layout/activity_summary.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_users.xml" value="0.1872166817769719" />
+        <entry key="app/src/main/res/layout/audio_message_item.xml" value="0.45" />
         <entry key="app/src/main/res/layout/item_user.xml" value="0.1872166817769719" />
         <entry key="app/src/main/res/layout/list_item_task.xml" value="0.3601340033500838" />
         <entry key="app/src/main/res/layout/message_item.xml" value="0.5" />

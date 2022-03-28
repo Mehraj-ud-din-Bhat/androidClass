@@ -18,15 +18,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.personapp.R;
+import com.example.personapp.adapter.viewHolders.AudioMessageHolder;
+import com.example.personapp.adapter.viewHolders.NormalMessageHolder;
 import com.example.personapp.models.Message;
 import com.example.personapp.models.User;
+import com.example.personapp.utility.Constants;
 import com.example.personapp.utility.SharedPref;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolder> {
+public class ChatsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     List<Message> messageList;
     Context context;
@@ -38,39 +41,72 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.MessageHolde
     }
 
     @Override
-    public MessageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View contactView = inflater.inflate(R.layout.message_item, parent, false);
-         MessageHolder viewHolder = new MessageHolder(contactView);
-        return viewHolder;
+         LayoutInflater inflater = LayoutInflater.from(context);
+        RecyclerView.ViewHolder viewHolder = null;
+        if(viewType==Constants.NORMAL_TEXT_MESSAGE) {
+             View contactView = inflater.inflate(R.layout.message_item, parent, false);
+            viewHolder = new NormalMessageHolder(contactView);
+         }else {
+            View contactView = inflater.inflate(R.layout.audio_message_item, parent, false);
+            viewHolder = new AudioMessageHolder(contactView);
+        }
+         return viewHolder;
+    }
+
+
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if(holder instanceof AudioMessageHolder)
+        {
+            ((AudioMessageHolder)holder).bind(messageList.get(position),context);
+        }else if(holder instanceof NormalMessageHolder)
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                ((NormalMessageHolder)holder).bind(messageList.get(position),context);
+            }
+        }
+
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(messageList.get(position).messageType== Constants.AUDIO_MESSAGE)
+        {
+            return  Constants.AUDIO_MESSAGE;
+        }else {
+            return  Constants.NORMAL_TEXT_MESSAGE;
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
-          if(holder!=null)
-          {
-              String userName= SharedPref.getCurrentuser(context.getApplicationContext());
-              if(messageList.get(position).senderName.equals(userName))
-              {
-                  holder.messageText.setTextColor(context.getColor(R.color.blue));
-                  holder.messageText.setGravity(Gravity.RIGHT);
-                  holder.messageTime.setGravity(Gravity.RIGHT);
-                  holder.messageUser.setGravity(Gravity.RIGHT);
-              }else {
-                  holder.messageText.setTextColor(context.getColor(R.color.black));
-                  holder.messageText.setGravity(Gravity.LEFT);
-                  holder.messageTime.setGravity(Gravity.LEFT);
-                  holder.messageUser.setGravity(Gravity.LEFT);
-              }
-
-              holder.messageText.setText(messageList.get(position).messageText);
-              Message message=messageList.get(position);
-              holder.messageTime.setText(getMessageTime(message.date));
-              holder.messageUser.setText(messageList.get(position).senderName);
-          }
-    }
+//    @Override
+//    public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
+//          if(holder!=null)
+//          {
+//              String userName= SharedPref.getCurrentuser(context.getApplicationContext());
+//              if(messageList.get(position).senderName.equals(userName))
+//              {
+//                  holder.messageText.setTextColor(context.getColor(R.color.blue));
+//                  holder.messageText.setGravity(Gravity.RIGHT);
+//                  holder.messageTime.setGravity(Gravity.RIGHT);
+//                  holder.messageUser.setGravity(Gravity.RIGHT);
+//              }else {
+//                  holder.messageText.setTextColor(context.getColor(R.color.black));
+//                  holder.messageText.setGravity(Gravity.LEFT);
+//                  holder.messageTime.setGravity(Gravity.LEFT);
+//                  holder.messageUser.setGravity(Gravity.LEFT);
+//              }
+//
+//              holder.messageText.setText(messageList.get(position).messageText);
+//              Message message=messageList.get(position);
+//              holder.messageTime.setText(getMessageTime(message.date));
+//              holder.messageUser.setText(messageList.get(position).senderName);
+//          }
+//    }
 
 
     public  String  getMessageTime(Date date)
