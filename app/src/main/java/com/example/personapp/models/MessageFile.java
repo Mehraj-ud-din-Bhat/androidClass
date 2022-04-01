@@ -3,6 +3,15 @@ package com.example.personapp.models;
 public class MessageFile {
     String fileType;
     String url;
+    String duration;
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
     public MessageFile(String fileType, String url) {
         this.fileType = fileType;

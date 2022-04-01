@@ -14,6 +14,9 @@ import com.example.personapp.R;
 import com.example.personapp.models.Message;
 import com.example.personapp.utility.SharedPref;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class NormalMessageHolder  extends RecyclerView.ViewHolder {
 
     TextView messageText;
@@ -33,24 +36,30 @@ public class NormalMessageHolder  extends RecyclerView.ViewHolder {
     {
 
               String userName= SharedPref.getCurrentuser(context.getApplicationContext());
-              if(message.senderName.equals(userName))
-              {
-                  messageText.setTextColor(context.getColor(R.color.blue));
-                  messageText.setGravity(Gravity.RIGHT);
-                  messageTime.setGravity(Gravity.RIGHT);
-                  messageUser.setGravity(Gravity.RIGHT);
-              }else {
-                  messageText.setTextColor(context.getColor(R.color.black));
-                  messageText.setGravity(Gravity.LEFT);
-                  messageTime.setGravity(Gravity.LEFT);
-                  messageUser.setGravity(Gravity.LEFT);
+              if(message.senderName!=null) {
+                  if (message.senderName.equals(userName)) {
+                      messageText.setTextColor(context.getColor(R.color.blue));
+                      messageText.setGravity(Gravity.RIGHT);
+                      messageTime.setGravity(Gravity.RIGHT);
+                      messageUser.setGravity(Gravity.RIGHT);
+                  } else {
+                      messageText.setTextColor(context.getColor(R.color.black));
+                      messageText.setGravity(Gravity.LEFT);
+                      messageTime.setGravity(Gravity.LEFT);
+                      messageUser.setGravity(Gravity.LEFT);
+                  }
+                  messageText.setText(message.messageText);
+                  messageTime.setText(getMessageTime(message.date));
               }
+             // messageUser.setText(m);
 
-              messageText.setText(message.messageText);
+    }
 
-            //  messageTime.setText(message.date);
-          //    messageUser.setText(m);
-
+    public  String  getMessageTime(Date date)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        String formattedDate= sdf.format(date);
+        return  formattedDate;
     }
 
 

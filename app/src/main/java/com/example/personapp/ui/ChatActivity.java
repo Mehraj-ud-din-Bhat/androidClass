@@ -347,6 +347,7 @@ public class ChatActivity extends AppCompatActivity {
     {
         Message message=new Message("",Calendar.getInstance().getTime(),SharedPref.getCurrentuser(getBaseContext()), Constants.AUDIO_MESSAGE);
         MessageFile messageFile=new MessageFile("AUDIO",fileUrl);
+        messageFile.setDuration(audioRecorder.getrecordedDuration());
         message.setFile(messageFile);
         database.sendMessage(chatChannel,message);
         Log.d("FILE","RECORDING MESSAGE SENT");
