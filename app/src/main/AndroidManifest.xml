@@ -14,13 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonApp" >
         <activity
-            android:name=".ui.UsersActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.Signup"
-            android:exported="false" />
-        <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.MainView"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,9 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.ChatActivity"
-            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
