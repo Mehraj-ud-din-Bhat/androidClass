@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:background="@color/grey"
+    android:background="#536DFE"
     android:layout_height="70dp">
     <ImageView
         android:id="@+id/back"
@@ -18,11 +18,11 @@
         android:layout_gravity="center_vertical"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/userPhone"
+            android:id="@+id/toolBartitle"
             android:layout_width="wrap_content"
 
             android:fontFamily="@font/montserrat"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
             android:layout_weight="600"

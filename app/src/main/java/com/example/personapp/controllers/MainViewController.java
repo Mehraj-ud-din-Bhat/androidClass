@@ -24,14 +24,12 @@ public class MainViewController {
  public    void getNews()
     {
         IRetrofitService service = RetrofitClient.getRetrofitInstance().create(IRetrofitService.class);
-
-
         Call<NewsResponse> call=service.getALlNews();
 
         // 200   OK
         // 404   NOT FOUND
-        // 500  SERVER ERROR
-        // 400  BAD REQUEST
+        // 500   SERVER ERROR
+        // 400   BAD REQUEST
 
         call.enqueue(new Callback<NewsResponse>() {
             @Override
@@ -40,12 +38,19 @@ public class MainViewController {
                 if(response.code()==200)
                 {
                     Log.d("STATS","RESPONSE: FIRST NEWS DES:  "+response.body().getArticles().get(0).getDescription());
+                    mainView.onNewsReceived(response.body());
+                }
+                else {
+                    Log.d("STATUS","RESPONSE: "+response.code());
+                    mainView.onError(response.message());
                 }
 
             }
 
             @Override
             public void onFailure(Call<NewsResponse> call, Throwable t) {
+
+                mainView.onError(t.getMessage());
 
             }
         });
