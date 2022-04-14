@@ -9,20 +9,21 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.personapp.R;
-import com.example.personapp.models.Article;
+import com.example.personapp.models.Topic;
 import com.example.personapp.ui.MainView;
 
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class TopicsAdapter extends RecyclerView.Adapter<TopicsAdapter.ViewHolder> {
 
-    private List<Article> mData;
+    private List<Topic> mData;
     private LayoutInflater mInflater;
     MainView mainView;
 
 
+
     // data is passed into the constructor
-    public NewsAdapter(Context context, List<Article> data, MainView mainView) {
+    public TopicsAdapter(Context context, List<Topic> data, MainView mainView) {
         this.mInflater = LayoutInflater.from(context);
         this.mData = data;
         this.mainView=mainView;
@@ -31,23 +32,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.news_item, parent, false);
+        View view = mInflater.inflate(R.layout.topic_item, parent, false);
         return new ViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Article article = mData.get(position);
-       // holder.myTextView.setText(animal);
-        holder.title.setText(article.getTitle());
-        holder.des.setText(article.getDescription());
-        holder.des.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                 mainView.onNewsItemClicked(article);
-            }
-        });
+        Topic topic= mData.get(position);
+//       // holder.myTextView.setText(animal);
+        holder.title.setText(topic.getTopicName());
+
     }
 
     // total number of rows
@@ -63,8 +58,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         TextView des;
         ViewHolder(View itemView) {
             super(itemView);
-            title= itemView.findViewById(R.id.newsTitle);
-            des= itemView.findViewById(R.id.newsDes);
+            title= itemView.findViewById(R.id.topicName);
+           // des= itemView.findViewById(R.id.newsDes);
         }
 
 
