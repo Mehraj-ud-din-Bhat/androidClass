@@ -6,6 +6,7 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1175" />
         <entry key="app/src/main/res/drawable/bg_topic.xml" value="0.133" />
+        <entry key="app/src/main/res/drawable/bg_topic_selected.xml" value="0.1535" />
         <entry key="app/src/main/res/drawable/btn_bg.xml" value="0.27870370370370373" />
         <entry key="app/src/main/res/drawable/et_bg.xml" value="0.29444444444444445" />
         <entry key="app/src/main/res/drawable/et_btn.xml" value="0.29444444444444445" />

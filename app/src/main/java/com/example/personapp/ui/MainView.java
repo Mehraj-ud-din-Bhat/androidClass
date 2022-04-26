@@ -100,4 +100,10 @@ public class MainView extends AppCompatActivity {
 
 
 
+    public  void onTopicClicked(String topicName)
+    {
+
+       controller.getTopicNews(topicName);
+    }
+
 }
