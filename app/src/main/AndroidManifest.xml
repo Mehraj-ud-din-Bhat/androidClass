@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PersonApp">
         <activity
-            android:name=".ui.WebView"
-            android:exported="false" />
-        <activity
             android:name=".ui.MainView"
             android:exported="true">
             <intent-filter>
